@@ -56,7 +56,7 @@ async function submitForm() {
   reader.onload = async function () {
     const base64 = reader.result.split(",")[1];
 
-    const payload = {
+    const payload = { 
       name: name,
       fileName: file.name,
       fileContent: base64
