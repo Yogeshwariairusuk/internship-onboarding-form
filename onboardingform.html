@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Onboarding Form</title>
+  <style>
+    body{ font-family:Arial; margin:40px; }
+    input, button { width:100%; margin-top:10px; padding: 8px; }
+    .container { max-width:400px; margin:auto; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Submit Your File</h2>
+  <input type="text" id="username" placeholder="Enter Name" required>
+  <input type="file" id="file" required>
+  <button onclick="submitForm()">Submit</button>
+</div>
+
+<script>
+async function submitForm() {
+  const name = document.getElementById("username").value;
+  const file = document.getElementById("file").files[0];
+  if (!name || !file) { alert("Name and file required"); return; }
+
+  const reader = new FileReader();
+  reader.onload = async function () {
+    const base64 = reader.result.split(",")[1];
+    const payload = {
+      name: name,
+      fileName: file.name,
+      fileContent: base64
+    };
+
+    const response = await fetch("YOUR_FLOW_HTTP_URL_HERE", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if(response.ok){
+      alert("Submitted successfully!");
+    } else {
+      alert("Submission failed!");
+    }
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
