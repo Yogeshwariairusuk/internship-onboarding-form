@@ -62,7 +62,8 @@ async function submitForm() {
       fileContent: base64
     };
 
-    await fetch("https://defaultf4c303f86ce44f2988fcb5dbf3a87e.fc.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4f6881281f7e4ded835ac823e805f45e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hIHUXL6EW8tESDT3woVLS3gq8wtJH71ceORfcCivntw", {
+    await fetch("https://defaultxxxx.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/{FLOW-ID}/triggers/manual/paths/invoke?api-version=2016-06-01
+", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
