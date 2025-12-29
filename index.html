@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+    }
+    .card {
+      width: 360px;
+      margin: 60px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+    input, button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+    }
+    button {
+      background: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h3>Submit Details</h3>
+
+  <input type="text" id="username" placeholder="Your Name" required />
+  <input type="file" id="file" required />
+
+  <button onclick="submitForm()">Submit</button>
+</div>
+
+<script>
+async function submitForm() {
+  const name = document.getElementById("username").value;
+  const fileInput = document.getElementById("file");
+  const file = fileInput.files[0];
+
+  if (!name || !file) {
+    alert("Name and file are required");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function () {
+    const base64 = reader.result.split(",")[1];
+
+    const payload = {
+      name: name,
+      fileName: file.name,
+      fileContent: base64
+    };
+
+    await fetch("https://defaultf4c303f86ce44f2988fcb5dbf3a87e.fc.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/4f6881281f7e4ded835ac823e805f45e/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hIHUXL6EW8tESDT3woVLS3gq8wtJH71ceORfcCivntw", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    alert("Uploaded successfully ✅");
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
